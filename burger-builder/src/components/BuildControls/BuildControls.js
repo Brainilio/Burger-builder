@@ -7,14 +7,14 @@ const controls = [
 	{ label: "Salad", type: "salad" },
 	{ label: "Bacon", type: "bacon" },
 	{ label: "Cheese", type: "cheese" },
-	{ label: "Meat", type: "meat" }
+	{ label: "Meat", type: "meat" },
 ]
 
 const BuildControls = (props) => (
 	<div className={classes.BuildControls}>
 		{/* Map through controls and pass info down for each buildcontrol */}
 		<p>
-			Current Price: <strong>${props.price}</strong>
+			Current Price: <strong>${props.price.toFixed(2)}</strong>
 		</p>
 		{controls.map((control) => (
 			<BuildControl
@@ -25,7 +25,11 @@ const BuildControls = (props) => (
 				disabled={props.disabled[control.type]} //access boolean for given type, with the control.type
 			/>
 		))}
-		<button className={classes.OrderButton} disabled={!props.purchasable}>
+		<button
+			onClick={props.ordered}
+			className={classes.OrderButton}
+			disabled={!props.purchasable}
+		>
 			ORDER NOW
 		</button>
 	</div>
