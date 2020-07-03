@@ -80,6 +80,10 @@ class BurgerBuilder extends Component {
 		})
 	}
 
+	purchaseContinueHandler = () => {
+		alert("You Continue!")
+	}
+
 	render() {
 		// Disable button if ingredient count is 0
 		const disabledInfo = {
@@ -95,7 +99,11 @@ class BurgerBuilder extends Component {
 			<>
 				{/* Granular focussed, modal is a higher order component and passes the props.chidlren */}
 				<Modal modalClosed={this.purchaseHandler} show={this.state.purchasing}>
-					<OrderSummary ingredients={this.state.ingredients} />
+					<OrderSummary
+						cancelClick={this.purchaseHandler}
+						continueClick={this.purchaseContinueHandler}
+						ingredients={this.state.ingredients}
+					/>
 				</Modal>
 				<Burger ingredients={this.state.ingredients} />
 				<BuildControls
