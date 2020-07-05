@@ -100,6 +100,7 @@ class BurgerBuilder extends Component {
 				{/* Granular focussed, modal is a higher order component and passes the props.chidlren */}
 				<Modal modalClosed={this.purchaseHandler} show={this.state.purchasing}>
 					<OrderSummary
+						price={this.state.totalPrice}
 						cancelClick={this.purchaseHandler}
 						continueClick={this.purchaseContinueHandler}
 						ingredients={this.state.ingredients}
