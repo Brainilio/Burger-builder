@@ -21,8 +21,27 @@
 	height: 80%;
 }
 
-@media (max-width: 499px) {
+.Menu { 
+	   cursor: pointer; 
+}
+
+.Menu div{ 
+    z-index: 999; 
+    background-color: white;
+    width: 20px; 
+    height: 2px;
+    margin: 5px;  
+}
+
+@media (max-width: 500px) {
+
 	.DesktopOnly {
 		display: none;
 	}
+}
+
+@media (min-width: 500px) { 
+	.Menu  { 
+	display: none; 
+}
 }

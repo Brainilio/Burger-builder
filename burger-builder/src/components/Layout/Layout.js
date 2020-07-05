@@ -7,16 +7,16 @@ class Layout extends Component {
 	// Wrap the content in a higher order component
 
 	state = {
-		showSideDrawer: true,
+		showSideDrawer: false,
 	}
 	//SIDEDRAWERCLOSEDHANDLER
 	SideDrawerClosedHandler = () => {
-		this.setState({ showSideDrawer: false })
+		this.setState({ showSideDrawer: !this.state.showSideDrawer})
 	}
 	render() {
 		return (
 			<>
-				<Toolbar />
+				<Toolbar handleSide={this.SideDrawerClosedHandler}/>
 				<SideDrawer
 					//side drawer open or not
 					open={this.state.showSideDrawer}
