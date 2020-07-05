@@ -1,4 +1,6 @@
 .BuildControls {
+	position: absolute; 
+	bottom: 0; 
 	width: 100%;
 	background-color: #cf8f2e;
 	display: flex;
@@ -19,6 +21,7 @@
 	font-size: 1.2em;
 	padding: 15px 30px;
 	box-shadow: 2px 2px 2px #966909;
+	margin: 35px 0; 
 }
 
 .OrderButton:hover,

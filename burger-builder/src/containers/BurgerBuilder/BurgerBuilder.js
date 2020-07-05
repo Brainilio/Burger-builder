@@ -75,8 +75,8 @@ class BurgerBuilder extends Component {
 
 	purchaseHandler = () => {
 		//set state the opposite of what it is right now
-		this.setState({
-			purchasing: !this.state.purchasing,
+		this.setState((prevState) => {
+			return { purchasing: !prevState.purchasing }
 		})
 	}
 

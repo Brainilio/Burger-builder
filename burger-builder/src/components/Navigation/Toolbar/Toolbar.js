@@ -6,11 +6,13 @@ import classes from "./Toolbar.module.css"
 const Toolbar = (props) => {
 	return (
 		<header className={classes.Toolbar}>
+			{/* Hamburger icon */}
 			<div className={classes.Menu} onClick={props.handleSide}>
 				<div></div>
 				<div></div>
 				<div></div>
 			</div>
+
 			<div className={classes.Logo}>
 				<Logo />
 			</div>
