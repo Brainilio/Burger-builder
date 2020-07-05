@@ -3,19 +3,23 @@ import Button from "../../UI/Button/Button"
 import { Component } from "react"
 
 class OrderSummary extends Component {
-
-
+	// Log whether it will update.
+	componentDidUpdate() {
+		console.log("Ordersummary did update.")
+	}
 	render() {
 		// take ingreidnets an use object.keys to transform into array of keys: value
-		const ingredientSummary = Object.keys(this.props.ingredients).map((igKey) => {
-			return (
-				<li key={igKey}>
-					{/* igkey = the key and props.ingredients[key] reads the value */}
-					<span style={{ textTransform: "capitalize" }}>{igKey}</span>:{" "}
-					{this.props.ingredients[igKey]}
-				</li>
-			)
-		})
+		const ingredientSummary = Object.keys(this.props.ingredients).map(
+			(igKey) => {
+				return (
+					<li key={igKey}>
+						{/* igkey = the key and props.ingredients[key] reads the value */}
+						<span style={{ textTransform: "capitalize" }}>{igKey}</span>:{" "}
+						{this.props.ingredients[igKey]}
+					</li>
+				)
+			}
+		)
 
 		return (
 			<>
