@@ -5,6 +5,7 @@ import Modal from "../../components/UI/Modal/Modal"
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 import axios from "../../axios-orders"
 import Spinner from "../../components/UI/Spinner/Spinner"
+import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 
 // Price for each ingredient
 const INGREDIENT_PRICES = {
@@ -107,7 +108,7 @@ class BurgerBuilder extends Component {
 
 		//.json for firebase
 		axios
-			.post("/orders.json", order)
+			.post("/orders", order)
 			.then((response) => {
 				console.log(response)
 				this.setState({ loading: false })
@@ -164,4 +165,4 @@ class BurgerBuilder extends Component {
 	}
 }
 
-export default BurgerBuilder
+export default withErrorHandler(BurgerBuilder, axios)
