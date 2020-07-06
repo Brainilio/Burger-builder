@@ -4,6 +4,8 @@ import axios from "../../axios-orders"
 
 import { Component } from "react"
 
+// TO DO: FIX THIS BUG
+
 const withErrorHandler = (WrappedComponent, axios) => {
 	//create anonymous class
 	return class extends Component {
