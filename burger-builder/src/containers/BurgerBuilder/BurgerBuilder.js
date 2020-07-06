@@ -116,6 +116,7 @@ class BurgerBuilder extends Component {
 			.catch((error) => {
 				console.log(error)
 				this.setState({ loading: false })
+				this.purchaseHandler()
 			})
 	}
 
@@ -139,6 +140,7 @@ class BurgerBuilder extends Component {
 				ingredients={this.state.ingredients}
 			/>
 		)
+		//if loading is true aka if you're checking out then show spinner
 		if (this.state.loading) {
 			orderSummary = <Spinner />
 		}
