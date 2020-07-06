@@ -26,7 +26,7 @@ class BurgerBuilder extends Component {
 		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
-		checkoutloader: false,
+		loading: false,
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -88,7 +88,7 @@ class BurgerBuilder extends Component {
 		// alert("You Continue!")
 
 		//set loading to true
-		this.setState({ checkoutloader: true })
+		this.setState({ loading: !this.state.loading })
 
 		//object that i want to send to the server
 		const order = {
