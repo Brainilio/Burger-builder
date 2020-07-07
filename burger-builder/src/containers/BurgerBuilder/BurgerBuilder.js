@@ -108,7 +108,7 @@ class BurgerBuilder extends Component {
 
 		//.json for firebase
 		axios
-			.post("/orders", order)
+			.post("/orders.json", order)
 			.then((response) => {
 				console.log(response)
 				this.setState({ loading: false })
@@ -141,6 +141,7 @@ class BurgerBuilder extends Component {
 				ingredients={this.state.ingredients}
 			/>
 		)
+
 		//if loading is true aka if you're checking out then show spinner
 		if (this.state.loading) {
 			orderSummary = <Spinner />
