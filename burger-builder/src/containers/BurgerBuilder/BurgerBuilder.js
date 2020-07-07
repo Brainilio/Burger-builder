@@ -18,16 +18,22 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 	// State for ingredients and amount of ingredients in 1 burger
 	state = {
-		ingredients: {
-			salad: 0,
-			bacon: 0,
-			cheese: 0,
-			meat: 0,
-		},
+		ingredients: null,
 		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
 		loading: false,
+	}
+
+	componentDidMount() {
+		axios
+			.get(
+				"https://react-my-burger-builder-d060b.firebaseio.com/ingredients.json"
+			)
+			.then((response) => {
+				console.log(response)
+				this.setState({ ingredients: response.data })
+			})
 	}
 
 	updatePurchaseState = (ingredients) => {
@@ -131,36 +137,44 @@ class BurgerBuilder extends Component {
 			disabledInfo[key] = disabledInfo[key] <= 0
 		}
 		// { salad: true, meat: false etc.}
+		let orderSummary = null
+		let burger = <Spinner />
 
-		//check the http request for spinner
-		let orderSummary = (
-			<OrderSummary
-				price={this.state.totalPrice}
-				cancelClick={this.purchaseHandler}
-				continueClick={this.purchaseContinueHandler}
-				ingredients={this.state.ingredients}
-			/>
-		)
-
-		//if loading is true aka if you're checking out then show spinner
-		if (this.state.loading) {
-			orderSummary = <Spinner />
+		if (this.state.ingredients) {
+			burger = (
+				<>
+					<Burger ingredients={this.state.ingredients} />
+					<BuildControls
+						IngredientAdded={this.addIngredientHandler}
+						IngredientRemoved={this.removeIngredientHandler}
+						disabled={disabledInfo}
+						price={this.state.totalPrice}
+						purchasable={this.state.purchasable}
+						ordered={this.purchaseHandler}
+					/>
+				</>
+			)
+			orderSummary = (
+				<OrderSummary
+					price={this.state.totalPrice}
+					cancelClick={this.purchaseHandler}
+					continueClick={this.purchaseContinueHandler}
+					ingredients={this.state.ingredients}
+				/>
+			)
+			//if loading is true aka if you're checking out then show spinner
+			if (this.state.loading) {
+				orderSummary = <Spinner />
+			}
 		}
+
 		return (
 			<>
 				{/* Granular focussed, modal is a higher order component and passes the props.chidlren */}
 				<Modal modalClosed={this.purchaseHandler} show={this.state.purchasing}>
 					{orderSummary}
 				</Modal>
-				<Burger ingredients={this.state.ingredients} />
-				<BuildControls
-					IngredientAdded={this.addIngredientHandler}
-					IngredientRemoved={this.removeIngredientHandler}
-					disabled={disabledInfo}
-					price={this.state.totalPrice}
-					purchasable={this.state.purchasable}
-					ordered={this.purchaseHandler}
-				/>
+				{burger}
 			</>
 		)
 	}
