@@ -23,6 +23,7 @@ class BurgerBuilder extends Component {
 		purchasable: false,
 		purchasing: false,
 		loading: false,
+		error: false,
 	}
 
 	componentDidMount() {
@@ -33,6 +34,9 @@ class BurgerBuilder extends Component {
 			.then((response) => {
 				console.log(response)
 				this.setState({ ingredients: response.data })
+			})
+			.catch((error) => {
+				this.setState({ error: true })
 			})
 	}
 
@@ -128,19 +132,23 @@ class BurgerBuilder extends Component {
 	}
 
 	render() {
-		// Disable button if ingredient count is 0
-		const disabledInfo = {
-			...this.state.ingredients,
-		}
-		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
-		for (let key in disabledInfo) {
-			disabledInfo[key] = disabledInfo[key] <= 0
-		}
 		// { salad: true, meat: false etc.}
 		let orderSummary = null
-		let burger = <Spinner />
+		let burger = this.state.error ? (
+			<p>Ingredients can't be loaded.. Try again later. </p>
+		) : (
+			<Spinner />
+		)
 
 		if (this.state.ingredients) {
+			// Disable button if ingredient count is 0
+			const disabledInfo = {
+				...this.state.ingredients,
+			}
+			// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
+			for (let key in disabledInfo) {
+				disabledInfo[key] = disabledInfo[key] <= 0
+			}
 			burger = (
 				<>
 					<Burger ingredients={this.state.ingredients} />
