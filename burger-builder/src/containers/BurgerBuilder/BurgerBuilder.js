@@ -96,39 +96,37 @@ class BurgerBuilder extends Component {
 
 	// HTTP request
 	purchaseContinueHandler = () => {
-		// alert("You Continue!")
-
-		//set loading to true
-		this.setState({ loading: !this.state.loading })
-
-		//object that i want to send to the server
-		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.totalPrice,
-			customer: {
-				name: "Brainilio",
-				address: {
-					city: "San Jose",
-					country: "USA",
-				},
-				email: "BrainilioIR@gmail.com",
-			},
-			deliveryMethod: "fastest",
-		}
-
-		//.json for firebase
-		axios
-			.post("/orders.json", order)
-			.then((response) => {
-				console.log(response)
-				this.setState({ loading: false })
-				this.purchaseHandler()
-			})
-			.catch((error) => {
-				console.log(error)
-				this.setState({ loading: false })
-				this.purchaseHandler()
-			})
+		// // alert("You Continue!")
+		// //set loading to true
+		// this.setState({ loading: !this.state.loading })
+		// //object that i want to send to the server
+		// const order = {
+		// 	ingredients: this.state.ingredients,
+		// 	price: this.state.totalPrice,
+		// 	customer: {
+		// 		name: "Brainilio",
+		// 		address: {
+		// 			city: "San Jose",
+		// 			country: "USA",
+		// 		},
+		// 		email: "BrainilioIR@gmail.com",
+		// 	},
+		// 	deliveryMethod: "fastest",
+		// }
+		// //.json for firebase
+		// axios
+		// 	.post("/orders.json", order)
+		// 	.then((response) => {
+		// 		console.log(response)
+		// 		this.setState({ loading: false })
+		// 		this.purchaseHandler()
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log(error)
+		// 		this.setState({ loading: false })
+		// 		this.purchaseHandler()
+		// 	})
+		this.props.history.push("/checkout")
 	}
 
 	render() {
