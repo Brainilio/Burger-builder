@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import Button from "../../../components/UI/Button/Button"
+import Spinner from "../../../components/UI/Spinner/Spinner"
 import classes from "./ContactData.module.css"
-import axios from "../../axios-orders"
+import axios from "../../../axios-orders"
 
 class ContactData extends Component {
 	state = {
@@ -11,6 +12,7 @@ class ContactData extends Component {
 			street: "",
 			postalCode: "",
 		},
+		loading: false,
 	}
 
 	orderHandler = (event) => {
@@ -21,8 +23,8 @@ class ContactData extends Component {
 		this.setState({ loading: !this.state.loading })
 		//object that i want to send to the server
 		const order = {
-			ingredients: this.state.ingredients,
-			price: this.state.totalPrice,
+			ingredients: this.props.ingredients,
+			price: this.props.totalPrice,
 			customer: {
 				name: "Brainilio",
 				address: {
@@ -39,28 +41,33 @@ class ContactData extends Component {
 			.then((response) => {
 				console.log(response)
 				this.setState({ loading: false })
-				this.purchaseHandler()
+				this.props.history.push("/")
 			})
 			.catch((error) => {
 				console.log(error)
 				this.setState({ loading: false })
-				this.purchaseHandler()
 			})
 	}
 
 	render() {
+		let form = (
+			<form>
+				<input type="text" name="name" placeholder="Your name.." />
+				<input type="email" name="email" placeholder="Your email.." />
+				<input type="text" name="street" placeholder="Your street.." />
+				<input type="text" name="postal" placeholder="Your Zipcode.." />
+				<Button btnType="Success" clicked={this.orderHandler}>
+					ORDER
+				</Button>
+			</form>
+		)
+		if (this.state.loading) {
+			form = <Spinner />
+		}
 		return (
 			<div className={classes.ContactData}>
 				<h4>Enter your contact data</h4>
-				<form>
-					<input type="text" name="name" placeholder="Your name.." />
-					<input type="email" name="email" placeholder="Your email.." />
-					<input type="text" name="street" placeholder="Your street.." />
-					<input type="text" name="postal" placeholder="Your Zipcode.." />
-					<Button btnType="Success" clicked={this.orderHandler}>
-						ORDER
-					</Button>
-				</form>
+				{form}
 			</div>
 		)
 	}
