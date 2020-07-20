@@ -4,10 +4,10 @@ import Checkoutsummary from "../../components/Order/Checkoutsummary/Checkoutsumm
 class Checkout extends Component {
 	state = {
 		ingredients: {
-			salad: 1,
-			meat: 1,
-			cheese: 1,
-			bacon: 1,
+			salad: 0,
+			meat: 0,
+			cheese: 0,
+			bacon: 0,
 		},
 	}
 
@@ -17,6 +17,7 @@ class Checkout extends Component {
 
 		// extract ingredients from query and then
 		for (let param of query.entries) {
+			// key + value added to ingredients
 			ingredients[param[0]] = +param[1]
 		}
 		this.setState({ ingredients: ingredients })
