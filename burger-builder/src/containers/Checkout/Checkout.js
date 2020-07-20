@@ -16,7 +16,7 @@ class Checkout extends Component {
 		const ingredients = {}
 
 		// extract ingredients from query and then
-		for (let param of query.entries) {
+		for (let param of query.entries()) {
 			// key + value added to ingredients
 			ingredients[param[0]] = +param[1]
 		}
