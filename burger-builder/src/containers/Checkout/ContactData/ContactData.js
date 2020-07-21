@@ -24,7 +24,7 @@ class ContactData extends Component {
 		//object that i want to send to the server
 		const order = {
 			ingredients: this.props.ingredients,
-			price: this.props.totalPrice,
+			price: this.props.price,
 			customer: {
 				name: "Brainilio",
 				address: {
