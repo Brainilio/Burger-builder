@@ -5,6 +5,8 @@ import classes from "./ContactData.module.css"
 import axios from "../../../axios-orders"
 import Input from "../../../components/UI/Input/Input"
 
+//YOU CAN ALSO USE https://validatejs.org/ for validation
+
 class ContactData extends Component {
 	state = {
 		orderForm: {
@@ -68,8 +70,8 @@ class ContactData extends Component {
 						{ value: "cheapest", displayValue: "Cheapest" },
 					],
 				},
-				value: "",
-				validation: { required: false },
+				value: "fastest",
+				validation: {},
 				valid: true,
 			},
 		},
