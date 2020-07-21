@@ -7,6 +7,7 @@ class OrderSummary extends Component {
 	componentDidUpdate() {
 		console.log("Ordersummary did update.")
 	}
+
 	render() {
 		// take ingreidnets an use object.keys to transform into array of keys: value
 		const ingredientSummary = Object.keys(this.props.ingredients).map(
