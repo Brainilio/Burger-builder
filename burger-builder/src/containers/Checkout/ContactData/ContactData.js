@@ -58,6 +58,7 @@ class ContactData extends Component {
 				value: "",
 				validation: {
 					required: true,
+					isEmail: true,
 				},
 				valid: false,
 				touched: false,
@@ -124,14 +125,17 @@ class ContactData extends Component {
 			return true
 		}
 
-		let isValid = false
+		let isValid = true
 
+		// fields need to be filled
 		if (rules.required) {
-			isValid = value.trim() !== ""
+			isValid = value.trim() !== "" && isValid
 		}
 
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength
+		//email validation
+		if (rules.isEmail) {
+			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+			isValid = pattern.test(value) && isValid
 		}
 
 		return isValid
