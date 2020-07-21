@@ -15,6 +15,10 @@ class ContactData extends Component {
 		loading: false,
 	}
 
+	componentDidMount() {
+		console.log(this.props.price)
+	}
+
 	orderHandler = (event) => {
 		//not to prevent the default (sending request because its a button)
 		event.preventDefault()
@@ -52,10 +56,30 @@ class ContactData extends Component {
 	render() {
 		let form = (
 			<form>
-				<input type="text" name="name" placeholder="Your name.." />
-				<input type="email" name="email" placeholder="Your email.." />
-				<input type="text" name="street" placeholder="Your street.." />
-				<input type="text" name="postal" placeholder="Your Zipcode.." />
+				<input
+					type="text"
+					className={classes.Input}
+					name="name"
+					placeholder="Your name.."
+				/>
+				<input
+					type="email"
+					className={classes.Input}
+					name="email"
+					placeholder="Your email.."
+				/>
+				<input
+					type="text"
+					className={classes.Input}
+					name="street"
+					placeholder="Your street.."
+				/>
+				<input
+					type="text"
+					className={classes.Input}
+					name="postal"
+					placeholder="Your Zipcode.."
+				/>
 				<Button btnType="Success" clicked={this.orderHandler}>
 					ORDER
 				</Button>
