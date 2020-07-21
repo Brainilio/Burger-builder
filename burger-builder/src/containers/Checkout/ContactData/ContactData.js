@@ -3,14 +3,53 @@ import Button from "../../../components/UI/Button/Button"
 import Spinner from "../../../components/UI/Spinner/Spinner"
 import classes from "./ContactData.module.css"
 import axios from "../../../axios-orders"
+import Input from "../../../components/UI/Input/Input"
 
 class ContactData extends Component {
 	state = {
-		name: "",
-		email: "",
-		address: {
-			street: "",
-			postalCode: "",
+		orderForm: {
+			name: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "Your name..",
+				},
+				value: "",
+			},
+			street: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "Street..",
+				},
+				value: "",
+			},
+			zipCode: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "ZIP code..",
+				},
+				value: "",
+			},
+			email: {
+				elementType: "input",
+				elementConfig: {
+					type: "email",
+					placeholder: "Your E-mail..",
+				},
+				value: "",
+			},
+			deliveryMethod: {
+				elementType: "select",
+				elementConfig: {
+					options: [
+						{ value: "fastest", displayValue: "Fastest" },
+						{ value: "cheapest", displayValue: "Cheapest" },
+					],
+				},
+				value: "",
+			},
 		},
 		loading: false,
 	}
@@ -57,25 +96,29 @@ class ContactData extends Component {
 	render() {
 		let form = (
 			<form>
-				<input
+				<Input
+					inputtype="input"
 					type="text"
 					className={classes.Input}
 					name="name"
 					placeholder="Your name.."
 				/>
-				<input
+				<Input
+					inputtype="input"
 					type="email"
 					className={classes.Input}
 					name="email"
 					placeholder="Your email.."
 				/>
-				<input
+				<Input
+					inputtype="input"
 					type="text"
 					className={classes.Input}
 					name="street"
 					placeholder="Your street.."
 				/>
-				<input
+				<Input
+					inputtype="input"
 					type="text"
 					className={classes.Input}
 					name="postal"
