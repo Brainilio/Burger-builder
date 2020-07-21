@@ -6,16 +6,21 @@ const Input = (props) => {
 
 	switch (props.inputType) {
 		case "input":
-			inputElement = <input />
+			inputElement = <input {...props} />
 			break
 		case "textarea":
-			inputElement = <textarea />
+			inputElement = <textarea {...props} />
 			break
 		default:
-			inputElement = <input />
+			inputElement = <input {...props} />
 	}
 
-	return <div></div>
+	return (
+		<div>
+			<label>{props.label}</label>
+			{inputElement}
+		</div>
+	)
 }
 
 export default Input
