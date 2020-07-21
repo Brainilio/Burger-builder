@@ -65,18 +65,16 @@ class ContactData extends Component {
 		// alert("You Continue!")
 		//set loading to true
 		this.setState({ loading: !this.state.loading })
+
 		//object that i want to send to the server
+		const formData = {}
+		for (let key in this.state.orderForm) {
+			formData[key] = this.state.orderForm[key].value
+		}
 		const order = {
 			ingredients: this.props.ingredients,
 			price: this.props.price,
-			customer: {
-				name: "Brainilio",
-				address: {
-					city: "San Jose",
-					country: "USA",
-				},
-				email: "BrainilioIR@gmail.com",
-			},
+			customer: formData,
 			deliveryMethod: "fastest",
 		}
 		//.json for firebase
