@@ -15,6 +15,11 @@ class ContactData extends Component {
 					placeholder: "Your name..",
 				},
 				value: "",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
 			},
 			street: {
 				elementType: "input",
@@ -23,6 +28,11 @@ class ContactData extends Component {
 					placeholder: "Street..",
 				},
 				value: "",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
 			},
 			zipCode: {
 				elementType: "input",
@@ -31,6 +41,11 @@ class ContactData extends Component {
 					placeholder: "ZIP code..",
 				},
 				value: "",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
 			},
 			email: {
 				elementType: "input",
@@ -39,6 +54,11 @@ class ContactData extends Component {
 					placeholder: "Your E-mail..",
 				},
 				value: "",
+				validation: {
+					required: true,
+				},
+				valid: false,
+				touched: false,
 			},
 			deliveryMethod: {
 				elementType: "select",
@@ -49,8 +69,11 @@ class ContactData extends Component {
 					],
 				},
 				value: "",
+				validation: { required: false },
+				valid: true,
 			},
 		},
+		formisValid: false,
 		loading: false,
 	}
 
@@ -62,21 +85,23 @@ class ContactData extends Component {
 	orderHandler = (event) => {
 		//not to prevent the default (sending request because its a button)
 		event.preventDefault()
-		// alert("You Continue!")
+
 		//set loading to true
 		this.setState({ loading: !this.state.loading })
 
-		//object that i want to send to the server
+		//CUSTOMER DATA
 		const formData = {}
 		for (let key in this.state.orderForm) {
 			formData[key] = this.state.orderForm[key].value
 		}
+
+		//object that i want to send to the server
 		const order = {
 			ingredients: this.props.ingredients,
 			price: this.props.price,
 			customer: formData,
-			deliveryMethod: "fastest",
 		}
+
 		//.json for firebase
 		axios
 			.post("/orders.json", order)
@@ -91,6 +116,25 @@ class ContactData extends Component {
 			})
 	}
 
+	//validation chcker
+	checkValidity(value, rules) {
+		if (!rules) {
+			return true
+		}
+
+		let isValid = false
+
+		if (rules.required) {
+			isValid = value.trim() !== ""
+		}
+
+		if (rules.minLength) {
+			isValid = value.length >= rules.minLength
+		}
+
+		return isValid
+	}
+
 	//inputchangehandler
 	inputChangedHandler = (e, inputID) => {
 		//copy form
@@ -103,10 +147,26 @@ class ContactData extends Component {
 		//change value
 		updatedFormEl.value = e.target.value
 
+		//set validity
+		updatedFormEl.valid = this.checkValidity(
+			updatedFormEl.value,
+			updatedFormEl.validation
+		)
+
+		//set touched to true
+		updatedFormEl.touched = true
+
 		//change the form's field with cloned and mutated field
 		updatedOrderForm[inputID] = updatedFormEl
 
-		this.setState({ orderForm: updatedOrderForm })
+		let formisValid = true
+
+		for (let inputid in updatedOrderForm) {
+			//is this given element valid? then set to true, and if this is false; set to false.
+			formisValid = updatedOrderForm[inputid].valid && formisValid
+		}
+
+		this.setState({ orderForm: updatedOrderForm, formisValid: formisValid })
 	}
 
 	render() {
@@ -126,10 +186,18 @@ class ContactData extends Component {
 						elementType={formElement.config.elementType}
 						elementConfig={formElement.config.elementConfig}
 						value={formElement.config.value}
+						valueType={formElement.id}
+						invalid={!formElement.config.valid}
+						shouldValidate={formElement.config.validation}
+						touched={formElement.config.touched}
 						changed={(event) => this.inputChangedHandler(event, formElement.id)}
 					/>
 				))}
-				<Button btnType="Success" clicked={this.orderHandler}>
+				<Button
+					disabled={!this.state.formisValid}
+					btnType="Success"
+					clicked={this.orderHandler}
+				>
 					ORDER
 				</Button>
 			</form>
