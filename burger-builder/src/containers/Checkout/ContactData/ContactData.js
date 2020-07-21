@@ -93,37 +93,44 @@ class ContactData extends Component {
 			})
 	}
 
+	//inputchangehandler
+	inputChangedHandler = (e, inputID) => {
+		//copy form
+		const updatedOrderForm = {
+			...this.state.orderForm,
+		}
+		//clone specific fields from a key
+		const updatedFormEl = { ...updatedOrderForm[inputID] }
+
+		//change value
+		updatedFormEl.value = e.target.value
+
+		//change the form's field with cloned and mutated field
+		updatedOrderForm[inputID] = updatedFormEl
+
+		this.setState({ orderForm: updatedOrderForm })
+	}
+
 	render() {
+		const formElementsArray = []
+		for (let key in this.state.orderForm) {
+			//grab all keys, and access orderform for each key now:
+			formElementsArray.push({
+				id: key,
+				config: this.state.orderForm[key],
+			})
+		}
 		let form = (
 			<form>
-				<Input
-					inputtype="input"
-					type="text"
-					className={classes.Input}
-					name="name"
-					placeholder="Your name.."
-				/>
-				<Input
-					inputtype="input"
-					type="email"
-					className={classes.Input}
-					name="email"
-					placeholder="Your email.."
-				/>
-				<Input
-					inputtype="input"
-					type="text"
-					className={classes.Input}
-					name="street"
-					placeholder="Your street.."
-				/>
-				<Input
-					inputtype="input"
-					type="text"
-					className={classes.Input}
-					name="postal"
-					placeholder="Your Zipcode.."
-				/>
+				{formElementsArray.map((formElement) => (
+					<Input
+						key={formElement.id}
+						elementType={formElement.config.elementType}
+						elementConfig={formElement.config.elementConfig}
+						value={formElement.config.value}
+						changed={(event) => this.inputChangedHandler(event, formElement.id)}
+					/>
+				))}
 				<Button btnType="Success" clicked={this.orderHandler}>
 					ORDER
 				</Button>
