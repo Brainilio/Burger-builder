@@ -30,6 +30,7 @@ const Order = (props) => {
 
 	return (
 		<div className={classes.Order}>
+			<h3>Burger with:</h3>
 			<p>{ingredientOutput}</p>
 			<p>
 				Price: <strong>USD ${props.price.toFixed(2)}</strong>

@@ -25,12 +25,12 @@ class Orders extends Component {
 	}
 
 	render() {
-		// let orders = <Spinner />
-		// if (this.state.loading == false) {
-
-		// }
+		let orders = <Spinner />
+		if (this.state.loading === false) {
+		}
 		return (
 			<div>
+				<h1 style={{ textAlign: "center" }}>Your orders: </h1>
 				{this.state.orders.map(
 					(order) =>
 						(order = (
