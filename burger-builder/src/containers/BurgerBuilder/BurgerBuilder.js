@@ -6,6 +6,8 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 import axios from "../../axios-orders"
 import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
+import { connect } from "react-redux"
+import * as actionTypes from "../../store/actions"
 
 // Price for each ingredient
 const INGREDIENT_PRICES = {
@@ -168,6 +170,17 @@ class BurgerBuilder extends Component {
 			</>
 		)
 	}
+}
+
+//map the state from reducer to props
+const mapStateToProps = (state) => {
+	return {
+		ings: state.ingredients,
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {}
 }
 
 export default withErrorHandler(BurgerBuilder, axios)
