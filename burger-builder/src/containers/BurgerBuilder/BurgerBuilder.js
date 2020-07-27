@@ -20,7 +20,6 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component {
 	// State for ingredients and amount of ingredients in 1 burger
 	state = {
-		ingredients: null,
 		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
@@ -124,10 +123,10 @@ class BurgerBuilder extends Component {
 			<Spinner />
 		)
 
-		if (this.state.ingredients) {
+		if (this.props.ings) {
 			// Disable button if ingredient count is 0
 			const disabledInfo = {
-				...this.state.ingredients,
+				...this.props.ings,
 			}
 			// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
 			for (let key in disabledInfo) {
@@ -135,7 +134,7 @@ class BurgerBuilder extends Component {
 			}
 			burger = (
 				<>
-					<Burger ingredients={this.state.ingredients} />
+					<Burger ingredients={this.props.ings} />
 					<BuildControls
 						IngredientAdded={this.addIngredientHandler}
 						IngredientRemoved={this.removeIngredientHandler}
@@ -151,7 +150,7 @@ class BurgerBuilder extends Component {
 					price={this.state.totalPrice}
 					cancelClick={this.purchaseHandler}
 					continueClick={this.purchaseContinueHandler}
-					ingredients={this.state.ingredients}
+					ingredients={this.props.ings}
 				/>
 			)
 			//if loading is true aka if you're checking out then show spinner
