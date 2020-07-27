@@ -9,18 +9,9 @@ import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 import { connect } from "react-redux"
 import * as actionTypes from "../../store/actions"
 
-// Price for each ingredient
-const INGREDIENT_PRICES = {
-	salad: 0.3,
-	cheese: 0.5,
-	meat: 1.3,
-	bacon: 0.7,
-}
-
 class BurgerBuilder extends Component {
 	// State for ingredients and amount of ingredients in 1 burger
 	state = {
-		totalPrice: 4,
 		purchasable: false,
 		purchasing: false,
 		loading: false,
@@ -54,40 +45,6 @@ class BurgerBuilder extends Component {
 		this.setState({ purchasable: sum > 0 }) //set purchasable on true when sum is larger than 0
 	}
 
-	addIngredientHandler = (type) => {
-		const oldCount = this.state.ingredients[type]
-		const updatedCounted = oldCount + 1
-		const updatedIngredients = {
-			...this.state.ingredients,
-		}
-		updatedIngredients[type] = updatedCounted
-		const priceAddition = INGREDIENT_PRICES[type]
-		const oldPrice = this.state.totalPrice
-		const newPrice = oldPrice + priceAddition
-		this.setState({ totalPrice: newPrice, ingredients: updatedIngredients })
-		this.updatePurchaseState(updatedIngredients)
-	}
-
-	removeIngredientHandler = (type) => {
-		const oldCount = this.state.ingredients[type]
-		if (oldCount <= 0) {
-			return
-		}
-		const updatedCounted = oldCount - 1
-		const updatedIngredients = {
-			...this.state.ingredients,
-		}
-		updatedIngredients[type] = updatedCounted
-		const priceDeduction = INGREDIENT_PRICES[type]
-		const oldPrice = this.state.totalPrice
-		const newPrice = oldPrice - priceDeduction
-		this.setState({
-			totalPrice: newPrice,
-			ingredients: updatedIngredients,
-		})
-		this.updatePurchaseState(updatedIngredients)
-	}
-
 	purchaseHandler = () => {
 		//set state the opposite of what it is right now
 		this.setState((prevState) => {
@@ -106,7 +63,7 @@ class BurgerBuilder extends Component {
 					encodeURIComponent(this.state.ingredients[i])
 			)
 		}
-		queryParams.push("price=" + this.state.totalPrice)
+		queryParams.push("price=" + this.props.price)
 		const queryString = queryParams.join("&")
 		this.props.history.push({
 			pathname: "/checkout",
@@ -139,7 +96,7 @@ class BurgerBuilder extends Component {
 						IngredientAdded={this.props.onIngredientAdded}
 						IngredientRemoved={this.props.onIngredientRemoved}
 						disabled={disabledInfo}
-						price={this.state.totalPrice}
+						price={this.props.price}
 						purchasable={this.state.purchasable}
 						ordered={this.purchaseHandler}
 					/>
@@ -147,7 +104,7 @@ class BurgerBuilder extends Component {
 			)
 			orderSummary = (
 				<OrderSummary
-					price={this.state.totalPrice}
+					price={this.props.price}
 					cancelClick={this.purchaseHandler}
 					continueClick={this.purchaseContinueHandler}
 					ingredients={this.props.ings}
@@ -175,6 +132,7 @@ class BurgerBuilder extends Component {
 const mapStateToProps = (state) => {
 	return {
 		ings: state.ingredients,
+		price: state.totalPrice,
 	}
 }
 

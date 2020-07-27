@@ -29,6 +29,7 @@ const reducer = (state = initialState, action) => {
 					//override object key
 					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
 				},
+				totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
 			}
 		case actionTypes.DELETE_INGREDIENT:
 			return {
@@ -37,6 +38,7 @@ const reducer = (state = initialState, action) => {
 					...state.ingredients,
 					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
 				},
+				totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
 			}
 		default:
 			return state
