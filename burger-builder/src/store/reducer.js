@@ -10,7 +10,12 @@ const INGREDIENT_PRICES = {
 
 //initial state for ingredients
 const initialState = {
-	ingredients: null,
+	ingredients: {
+		salad: 0,
+		bacon: 0,
+		cheese: 0,
+		meat: 0,
+	},
 	totalPrice: 4,
 }
 
@@ -19,10 +24,19 @@ const reducer = (state = initialState, action) => {
 		case actionTypes.ADD_INGREDIENT:
 			return {
 				...state,
+				ingredients: {
+					...state.ingredients,
+					//override object key
+					[action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+				},
 			}
 		case actionTypes.DELETE_INGREDIENT:
 			return {
 				...state,
+				ingredients: {
+					...state.ingredients,
+					[action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+				},
 			}
 		default:
 			return state
