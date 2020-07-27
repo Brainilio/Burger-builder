@@ -27,8 +27,6 @@ class Checkout extends Component {
 					path={this.props.match.url + "/contact-data"}
 					render={(props) => (
 						<ContactData
-							ingredients={this.props.ings}
-							price={this.props.price}
 							// ALL PROPS passed
 							{...props}
 						/>
