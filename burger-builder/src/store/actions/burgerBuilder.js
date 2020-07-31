@@ -15,3 +15,7 @@ export const removeIngredient = (name) => {
 		ingredientName: name,
 	}
 }
+
+export const initIngredients = () => {
+	return (dispatch) => {}
+}

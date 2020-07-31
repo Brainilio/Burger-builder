@@ -6,14 +6,18 @@ import * as serviceWorker from "./serviceWorker"
 import { BrowserRouter } from "react-router-dom"
 
 //redux methods and components
+import thunk from "redux-thunk"
 import burgerBuilderReducer from "./store/reducers/burgerBuilder"
-import { createStore } from "redux"
+import { createStore, applyMiddleware, compose } from "redux"
 import { Provider } from "react-redux"
 
-//create store
+//create store and compose applymiddleware + devtools
 const store = createStore(
 	burgerBuilderReducer,
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+	compose(
+		applyMiddleware(thunk),
+		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+	)
 )
 
 const app = (
