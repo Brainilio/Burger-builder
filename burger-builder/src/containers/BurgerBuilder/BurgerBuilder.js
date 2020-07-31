@@ -65,15 +65,16 @@ class BurgerBuilder extends Component {
 			<Spinner />
 		)
 
+		// Disable button if ingredient count is 0
+		const disabledInfo = {
+			...this.props.ings,
+		}
+		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
+		for (let key in disabledInfo) {
+			disabledInfo[key] = disabledInfo[key] <= 0
+		}
+
 		if (this.props.ings) {
-			// Disable button if ingredient count is 0
-			const disabledInfo = {
-				...this.props.ings,
-			}
-			// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
-			for (let key in disabledInfo) {
-				disabledInfo[key] = disabledInfo[key] <= 0
-			}
 			burger = (
 				<>
 					<Burger ingredients={this.props.ings} />
