@@ -28,23 +28,22 @@ class Orders extends Component {
 	render() {
 		let orders = <Spinner />
 		if (this.state.loading === false) {
-			orders = (
-				<div>
-					<h1 style={{ textAlign: "center" }}>Your orders: </h1>
-					{this.state.orders.map(
-						(order) =>
-							(order = (
-								<Order
-									key={order.id}
-									ingredients={order.ingredients}
-									price={+order.price}
-								/>
-							))
-					)}
-				</div>
-			)
 		}
-		return { orders }
+		return (
+			<div>
+				<h1 style={{ textAlign: "center" }}>Your orders: </h1>
+				{this.state.orders.map(
+					(order) =>
+						(order = (
+							<Order
+								key={order.id}
+								ingredients={order.ingredients}
+								price={+order.price}
+							/>
+						))
+				)}
+			</div>
+		)
 	}
 }
 
