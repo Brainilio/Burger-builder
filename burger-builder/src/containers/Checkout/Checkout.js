@@ -6,6 +6,20 @@ import { connect } from "react-redux"
 import ContactData from "./ContactData/ContactData"
 
 class Checkout extends Component {
+	componentDidMount() {
+		// Disable button if ingredient count is 0
+		const disabledInfo = {
+			...this.props.ings,
+		}
+		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
+		for (let key in disabledInfo) {
+			disabledInfo[key] = disabledInfo[key] <= 0
+		}
+
+		if (this.props.ings === null || disabledInfo === false) {
+			this.props.history.goBack()
+		}
+	}
 	checkoutCancelledHandler = () => {
 		//goback method!
 		this.props.history.goBack()

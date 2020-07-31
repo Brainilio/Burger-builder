@@ -81,10 +81,6 @@ class ContactData extends Component {
 		loading: false,
 	}
 
-	componentDidMount() {
-		console.log(this.props.price)
-	}
-
 	//send order to database
 	orderHandler = (event) => {
 		//not to prevent the default (sending request because its a button)
