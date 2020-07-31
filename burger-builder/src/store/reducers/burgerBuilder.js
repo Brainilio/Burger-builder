@@ -1,4 +1,4 @@
-import * as actionTypes from "./actions"
+import * as actionTypes from "../actions/actionTypes"
 
 // Price for each ingredient
 const INGREDIENT_PRICES = {
