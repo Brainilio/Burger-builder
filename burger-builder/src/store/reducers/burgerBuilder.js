@@ -39,17 +39,13 @@ const reducer = (state = initialState, action) => {
 			}
 			return updateObject(state, updatedState1)
 		case actionTypes.SET_INGREDIENTS:
-			return {
-				...state,
+			return updateObject(state, {
 				ingredients: action.ingredients,
 				totalPrice: 4,
 				error: false,
-			}
+			})
 		case actionTypes.FETCH_INGREDIENTS_FAILED:
-			return {
-				...state,
-				error: true,
-			}
+			return updateObject(state, { error: true })
 		default:
 			return state
 	}

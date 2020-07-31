@@ -4,3 +4,5 @@ export const updateObject = (oldObject, updatedProperties) => {
 		...updatedProperties,
 	}
 }
+
+//utility function to pass old state and add new properties for reducers
