@@ -10,20 +10,7 @@ class Orders extends Component {
 		loading: true,
 	}
 
-	componentDidMount() {
-		axios
-			.get("/orders.json")
-			.then((response) => {
-				const fetchedOrders = []
-				for (let key in response.data) {
-					fetchedOrders.push({ ...response.data[key], id: key })
-				}
-				this.setState({ loading: false, orders: fetchedOrders })
-			})
-			.catch((err) => {
-				this.setState({ loading: false })
-			})
-	}
+	componentDidMount() {}
 
 	render() {
 		let orders = <Spinner />

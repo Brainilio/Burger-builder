@@ -65,3 +65,20 @@ export const fetchOrdersStart = () => {
 		type: actionTypes.FETCH_ORDERS_START,
 	}
 }
+
+export const fetchOrders = () => {
+	return (dispatch) => {
+		axios
+			.get("/orders.json")
+			.then((response) => {
+				const fetchedOrders = []
+				for (let key in response.data) {
+					fetchedOrders.push({ ...response.data[key], id: key })
+				}
+				dispatch(fetchOrdersSuccess(fetchedOrders))
+			})
+			.catch((err) => {
+				dispatch(fetchOrdersFail(err))
+			})
+	}
+}
