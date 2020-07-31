@@ -2,8 +2,10 @@ import React, { Component } from "react"
 import Checkoutsummary from "../../components/Order/Checkoutsummary/Checkoutsummary"
 import { Route } from "react-router-dom"
 import { connect } from "react-redux"
+import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 
 import ContactData from "./ContactData/ContactData"
+import axios from "../../axios-orders"
 
 class Checkout extends Component {
 	componentDidMount() {
@@ -58,4 +60,4 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(Checkout)
+export default connect(mapStateToProps)(withErrorHandler(Checkout, axios))

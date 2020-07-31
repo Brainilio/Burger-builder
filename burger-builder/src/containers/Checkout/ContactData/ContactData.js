@@ -5,6 +5,8 @@ import classes from "./ContactData.module.css"
 import axios from "../../../axios-orders"
 import Input from "../../../components/UI/Input/Input"
 import { connect } from "react-redux"
+import withErrorHandler from "../../../hoc/ErrorHandler/ErrorHandler"
+import * as actions from "../../../store/actions/index"
 
 //YOU CAN ALSO USE https://validatejs.org/ for validation
 
@@ -102,18 +104,7 @@ class ContactData extends Component {
 			customer: formData,
 		}
 
-		//.json for firebase
-		axios
-			.post("/orders.json", order)
-			.then((response) => {
-				console.log(response)
-				this.setState({ loading: false })
-				this.props.history.push("/")
-			})
-			.catch((error) => {
-				console.log(error)
-				this.setState({ loading: false })
-			})
+		this.props.onOrderHandler(order)
 	}
 
 	//validation chcker
@@ -224,4 +215,14 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps)(ContactData)
+const mapDispatchToProps = (dispatch) => {
+	return {
+		onOrderHandler: (orderData) =>
+			dispatch(actions.purchaseBurgerStart(orderData)),
+	}
+}
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(withErrorHandler(ContactData, axios))
