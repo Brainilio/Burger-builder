@@ -51,6 +51,7 @@ const setIngredient = (state, action) => {
 	})
 }
 
+//failed ingredient fetch
 const fetchIngredientsFailed = (state, action) => {
 	return updateObject(state, { error: true })
 }
