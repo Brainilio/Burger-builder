@@ -1,9 +1,9 @@
 import React, { Component } from "react"
 import Checkoutsummary from "../../components/Order/Checkoutsummary/Checkoutsummary"
-import { Route } from "react-router-dom"
+import { Route, Redirect } from "react-router-dom"
 import { connect } from "react-redux"
 import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
-
+import * as actions from "../../store/actions/index"
 import ContactData from "./ContactData/ContactData"
 import axios from "../../axios-orders"
 
@@ -19,9 +19,10 @@ class Checkout extends Component {
 		}
 
 		if (this.props.ings === null || disabledInfo === false) {
-			this.props.history.goBack()
+			this.goBackHandler()
 		}
 	}
+
 	checkoutCancelledHandler = () => {
 		//goback method!
 		this.props.history.goBack()
@@ -31,9 +32,15 @@ class Checkout extends Component {
 		this.props.history.replace("/checkout/contact-data")
 	}
 
+	goBackHandler = () => {
+		this.props.history.goBack()
+	}
+
 	render() {
+		const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null
 		return (
 			<div>
+				{purchasedRedirect}
 				<Checkoutsummary
 					checkoutCancelled={this.checkoutCancelledHandler}
 					checkoutContinued={this.checkoutContinuedHandler}
@@ -55,8 +62,9 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		ings: state.ingredients,
-		price: state.totalPrice,
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		purchased: state.order.purchased,
 	}
 }
 

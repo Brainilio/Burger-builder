@@ -8,12 +8,18 @@ import { BrowserRouter } from "react-router-dom"
 //redux methods and components
 import thunk from "redux-thunk"
 import burgerBuilderReducer from "./store/reducers/burgerBuilder"
-import { createStore, applyMiddleware, compose } from "redux"
+import orderReducer from "./store/reducers/order"
+import { createStore, applyMiddleware, compose, combineReducers } from "redux"
 import { Provider } from "react-redux"
 
+//combine reducers
+const rootReducer = combineReducers({
+	burgerBuilder: burgerBuilderReducer,
+	order: orderReducer,
+})
 //create store and compose applymiddleware + devtools
 const store = createStore(
-	burgerBuilderReducer,
+	rootReducer,
 	compose(
 		applyMiddleware(thunk),
 		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
