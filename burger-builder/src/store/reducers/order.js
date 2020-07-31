@@ -33,7 +33,7 @@ const purchaseBurgerFail = (state, action) => {
 }
 //fetching orders in order page loader
 const fetchOrdersStart = (state, action) => {
-	updateObject(state, { loading: true })
+	return updateObject(state, { loading: true })
 }
 
 //fetch success for order page
