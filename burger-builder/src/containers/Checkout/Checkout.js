@@ -3,7 +3,6 @@ import Checkoutsummary from "../../components/Order/Checkoutsummary/Checkoutsumm
 import { Route, Redirect } from "react-router-dom"
 import { connect } from "react-redux"
 import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
-import * as actions from "../../store/actions/index"
 import ContactData from "./ContactData/ContactData"
 import axios from "../../axios-orders"
 
@@ -37,26 +36,32 @@ class Checkout extends Component {
 	}
 
 	render() {
-		const purchasedRedirect = this.props.purchased ? <Redirect to="/" /> : null
-		return (
-			<div>
-				{purchasedRedirect}
-				<Checkoutsummary
-					checkoutCancelled={this.checkoutCancelledHandler}
-					checkoutContinued={this.checkoutContinuedHandler}
-					ingredients={this.props.ings}
-				/>
-				<Route
-					path={this.props.match.url + "/contact-data"}
-					render={(props) => (
-						<ContactData
-							// ALL PROPS passed
-							{...props}
-						/>
-					)}
-				/>
-			</div>
-		)
+		let summary = <Redirect to="/" />
+		if (this.props.ings) {
+			const purchasedRedirect = this.props.purchased ? (
+				<Redirect to="/" />
+			) : null
+			summary = (
+				<div>
+					{purchasedRedirect}
+					<Checkoutsummary
+						checkoutCancelled={this.checkoutCancelledHandler}
+						checkoutContinued={this.checkoutContinuedHandler}
+						ingredients={this.props.ings}
+					/>
+					<Route
+						path={this.props.match.url + "/contact-data"}
+						render={(props) => (
+							<ContactData
+								// ALL PROPS passed
+								{...props}
+							/>
+						)}
+					/>
+				</div>
+			)
+		}
+		return <>{summary}</>
 	}
 }
 
