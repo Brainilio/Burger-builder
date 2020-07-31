@@ -16,9 +16,16 @@ export const purchaseBurgerFail = (error) => {
 	}
 }
 
+export const purchaseBurgerStart = () => {
+	return {
+		type: actionTypes.PURCHASE_BURGER_START,
+	}
+}
+
 //async code to send burger to firebase
-export const purchaseBurgerStart = (orderData) => {
+export const purchaseBurger = (orderData) => {
 	return (dispatch) => {
+		dispatch(purchaseBurgerStart())
 		axios
 			.post("/orders.json", orderData)
 			.then((response) => {
