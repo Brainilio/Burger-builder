@@ -1,4 +1,8 @@
 // import all actiosncreators
 
-export { addIngredient, removeIngredient } from "./burgerBuilder"
+export {
+	addIngredient,
+	removeIngredient,
+	initIngredients,
+} from "./burgerBuilder"
 export {} from "./order"
