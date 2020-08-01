@@ -25,6 +25,22 @@ export const authFail = (error) => {
 	}
 }
 
+//log out constant that will trigger after expirationtime or click
+export const logout = () => {
+	return {
+		type: actionTypes.AUTH_LOGOUT,
+	}
+}
+
+//check time for auth time out
+export const checkAuthTimeout = (expirationTime) => {
+	return (dispatch) => {
+		setTimeout(() => {
+			dispatch(logout())
+		}, expirationTime)
+	}
+}
+
 //sending the form to the server, holding async code
 export const auth = (email, password, isSignup) => {
 	return (dispatch) => {
@@ -46,12 +62,11 @@ export const auth = (email, password, isSignup) => {
 		axios
 			.post(url, authData)
 			.then((res) => {
-				console.log(res)
 				dispatch(authSuccess(res.data.idToken, res.data.localId))
+				dispatch(checkAuthTimeout(res.data.expiresIn))
 			})
 			.catch((err) => {
-				console.log(err)
-				dispatch(authFail(err))
+				dispatch(authFail(err.response.data.error))
 			})
 	}
 }
