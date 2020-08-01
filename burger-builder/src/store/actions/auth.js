@@ -27,9 +27,8 @@ export const authFail = (error) => {
 
 //log out constant that will trigger after expirationtime or click
 export const logout = () => {
-	localStorage.removeItem("token")
-	localStorage.removeItem("expirationDate")
-	localStorage.removeItem("userId")
+	// Clear all items
+	localStorage.clear()
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	}
@@ -68,6 +67,7 @@ export const auth = (email, password, isSignup) => {
 				const expirationDate = new Date(
 					new Date().getTime() + res.data.expiresIn * 1000
 				)
+				//set localstorage for refreshing
 				localStorage.setItem("token", res.data.idToken)
 				localStorage.setItem("expirationDate", expirationDate)
 				localStorage.setItem("userId", res.data.localId)
@@ -88,7 +88,7 @@ export const setAuthRedirectPath = (path) => {
 	}
 }
 
-//CHECK THE ucrrent state
+//CHECK THE ucrrent state and if you still have a valid token in your localstorage, then you stay logged im.
 export const authCheckState = () => {
 	return (dispatch) => {
 		const token = localStorage.getItem("token")
