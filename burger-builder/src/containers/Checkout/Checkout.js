@@ -1,30 +1,25 @@
 import React, { Component } from "react"
 import Checkoutsummary from "../../components/Order/Checkoutsummary/Checkoutsummary"
-import { Route } from "react-router-dom"
-
+import { Route, Redirect } from "react-router-dom"
+import { connect } from "react-redux"
+import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 import ContactData from "./ContactData/ContactData"
+import axios from "../../axios-orders"
 
 class Checkout extends Component {
-	state = {
-		ingredients: null,
-		totalPrice: 0,
-	}
-
-	componentWillMount() {
-		const query = new URLSearchParams(this.props.location.search)
-		const ingredients = {}
-		let price = 0
-
-		// extract ingredients from query and then add them to state
-		for (let param of query.entries()) {
-			if (param[0] === "price") {
-				price = param[1]
-			} else {
-				// key + value added to ingredients
-				ingredients[param[0]] = +param[1]
-			}
+	componentDidMount() {
+		// Disable button if ingredient count is 0
+		const disabledInfo = {
+			...this.props.ings,
 		}
-		this.setState({ ingredients: ingredients, totalPrice: price })
+		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
+		for (let key in disabledInfo) {
+			disabledInfo[key] = disabledInfo[key] <= 0
+		}
+
+		if (this.props.ings === null || disabledInfo === false) {
+			this.goBackHandler()
+		}
 	}
 
 	checkoutCancelledHandler = () => {
@@ -36,28 +31,46 @@ class Checkout extends Component {
 		this.props.history.replace("/checkout/contact-data")
 	}
 
+	goBackHandler = () => {
+		this.props.history.goBack()
+	}
+
 	render() {
-		return (
-			<div>
-				<Checkoutsummary
-					checkoutCancelled={this.checkoutCancelledHandler}
-					checkoutContinued={this.checkoutContinuedHandler}
-					ingredients={this.state.ingredients}
-				/>
-				<Route
-					path={this.props.match.url + "/contact-data"}
-					render={(props) => (
-						<ContactData
-							ingredients={this.state.ingredients}
-							price={this.state.totalPrice}
-							// ALL PROPS passed
-							{...props}
-						/>
-					)}
-				/>
-			</div>
-		)
+		let summary = <Redirect to="/" />
+		if (this.props.ings) {
+			const purchasedRedirect = this.props.purchased ? (
+				<Redirect to="/" />
+			) : null
+			summary = (
+				<div>
+					{purchasedRedirect}
+					<Checkoutsummary
+						checkoutCancelled={this.checkoutCancelledHandler}
+						checkoutContinued={this.checkoutContinuedHandler}
+						ingredients={this.props.ings}
+					/>
+					<Route
+						path={this.props.match.url + "/contact-data"}
+						render={(props) => (
+							<ContactData
+								// ALL PROPS passed
+								{...props}
+							/>
+						)}
+					/>
+				</div>
+			)
+		}
+		return <>{summary}</>
 	}
 }
 
-export default Checkout
+const mapStateToProps = (state) => {
+	return {
+		ings: state.burgerBuilder.ingredients,
+		price: state.burgerBuilder.totalPrice,
+		purchased: state.order.purchased,
+	}
+}
+
+export default connect(mapStateToProps)(withErrorHandler(Checkout, axios))
