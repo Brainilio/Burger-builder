@@ -6,6 +6,7 @@ const initialState = {
 	userId: null,
 	error: null,
 	loading: false,
+	authRedirectPath: "/",
 }
 
 //method for starting auth, loader.
@@ -36,6 +37,13 @@ const authLogout = (state, action) => {
 	return updateObject(state, {
 		token: null,
 		userId: null,
+	})
+}
+
+//changing redirectpath
+const setAuthRedirectPath = (state, action) => {
+	return updateObject(state, {
+		authRedirectPath: action.path,
 	})
 }
 

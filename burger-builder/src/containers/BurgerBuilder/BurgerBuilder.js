@@ -33,10 +33,16 @@ class BurgerBuilder extends Component {
 	}
 
 	purchaseHandler = () => {
-		//set state the opposite of what it is right now
-		this.setState((prevState) => {
-			return { purchasing: !prevState.purchasing }
-		})
+		if (this.props.isAuthenticated) {
+			//set state the opposite of what it is right now
+			this.setState((prevState) => {
+				return {
+					purchasing: !prevState.purchasing,
+				}
+			})
+		} else {
+			this.props.history.push("/auth")
+		}
 	}
 
 	// HTTP request
@@ -74,6 +80,7 @@ class BurgerBuilder extends Component {
 						price={this.props.price}
 						purchasable={this.updatePurchaseState(this.props.ings)}
 						ordered={this.purchaseHandler}
+						isAuth={this.props.isAuthenticated}
 					/>
 				</>
 			)
@@ -105,6 +112,7 @@ const mapStateToProps = (state) => {
 		ings: state.burgerBuilder.ingredients,
 		price: state.burgerBuilder.totalPrice,
 		error: state.burgerBuilder.error,
+		isAuthenticated: state.auth.token !== null,
 	}
 }
 
