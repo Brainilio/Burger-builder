@@ -9,6 +9,7 @@ import { BrowserRouter } from "react-router-dom"
 import thunk from "redux-thunk"
 import burgerBuilderReducer from "./store/reducers/burgerBuilder"
 import orderReducer from "./store/reducers/order"
+import authReducer from "./store/reducers/auth"
 import { createStore, applyMiddleware, compose, combineReducers } from "redux"
 import { Provider } from "react-redux"
 
@@ -16,6 +17,7 @@ import { Provider } from "react-redux"
 const rootReducer = combineReducers({
 	burgerBuilder: burgerBuilderReducer,
 	order: orderReducer,
+	auth: authReducer,
 })
 //create store and compose applymiddleware + devtools
 const store = createStore(
