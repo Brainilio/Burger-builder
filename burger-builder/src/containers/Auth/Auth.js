@@ -38,24 +38,35 @@ class Auth extends Component {
 				touched: false,
 			},
 		},
+		isSignup: true,
 	}
 
 	//validation chcker
 	checkValidity(value, rules) {
+		let isValid = true
 		if (!rules) {
 			return true
 		}
 
-		let isValid = true
-
-		// fields need to be filled
 		if (rules.required) {
 			isValid = value.trim() !== "" && isValid
 		}
 
-		//email validation
+		if (rules.minLength) {
+			isValid = value.length >= rules.minLength && isValid
+		}
+
+		if (rules.maxLength) {
+			isValid = value.length <= rules.maxLength && isValid
+		}
+
 		if (rules.isEmail) {
 			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+			isValid = pattern.test(value) && isValid
+		}
+
+		if (rules.isNumeric) {
+			const pattern = /^\d+$/
 			isValid = pattern.test(value) && isValid
 		}
 
@@ -77,9 +88,25 @@ class Auth extends Component {
 				touched: true,
 			},
 		}
-
-		//set state to updated form
 		this.setState({ controls: updatedControls })
+	}
+
+	//submit handler
+	submitHandler = (e) => {
+		console.log("Submitted form")
+		e.preventDefault()
+		this.props.onAuth(
+			this.state.controls.email.value,
+			this.state.controls.password.value,
+			this.state.isSignup
+		)
+	}
+
+	//switchAuthMode
+	switchAuthModeHandler = () => {
+		this.setState((prevState) => {
+			return { isSignup: !prevState.isSignup }
+		})
 	}
 
 	render() {
@@ -108,10 +135,13 @@ class Auth extends Component {
 			<>
 				<h1 style={{ textAlign: "center" }}>Log in</h1>
 				<div className={classes.Auth}>
-					<form>
+					<form onSubmit={this.submitHandler}>
 						{form}
 						<Button btnType="Success">SUBMIT</Button>
 					</form>
+					<Button clicked={this.switchAuthModeHandler} btnType="Danger">
+						SWITCH TO {this.state.isSignup ? "SIGN IN" : "SIGN UP"}
+					</Button>
 				</div>
 			</>
 		)
@@ -120,7 +150,8 @@ class Auth extends Component {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		onAuth: (email, password) => dispatch(actions.auth(email, password)),
+		onAuth: (email, password, isSignup) =>
+			dispatch(actions.auth(email, password, isSignup)),
 	}
 }
 
