@@ -1,5 +1,6 @@
 import React, { Component } from "react"
-
+import Input from "../../components/UI/Input/Input"
+import Button from "../../components/ui/Button/Button"
 class Auth extends Component {
 	//local state for form
 	state = {
@@ -36,6 +37,27 @@ class Auth extends Component {
 	}
 
 	render() {
+		const formElementsArray = []
+		for (let key in this.state.orderForm) {
+			//grab all keys, and access orderform for each key now:
+			formElementsArray.push({
+				id: key,
+				config: this.state.orderForm[key],
+			})
+		}
+		const form = formElementsArray.map((formElement) => (
+			<Input
+				key={formElement.id}
+				elementType={formElement.config.elementType}
+				elementConfig={formElement.config.elementConfig}
+				value={formElement.config.value}
+				valueType={formElement.id}
+				invalid={!formElement.config.valid}
+				shouldValidate={formElement.config.validation}
+				touched={formElement.config.touched}
+				changed={(event) => this.inputChangedHandler(event, formElement.id)}
+			/>
+		))
 		return (
 			<div>
 				<form></form>
