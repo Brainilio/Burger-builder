@@ -23,11 +23,14 @@ export const purchaseBurgerStart = () => {
 }
 
 //async code to send burger to firebase
-export const purchaseBurger = (orderData, token) => {
+export const purchaseBurger = (orderData, token, userId) => {
 	return (dispatch) => {
 		dispatch(purchaseBurgerStart())
+		//fetch orders from user only
+		const queryParams =
+			"?auth=" + token + '&orderBy="userId"&equalTo="' + userId + '"'
 		axios
-			.post("/orders.json?auth=" + token, orderData)
+			.post("/orders.json?auth=" + queryParams)
 			.then((response) => {
 				console.log(response.data)
 				dispatch(purchaseBurgerSuccess(response.data.name, orderData))
