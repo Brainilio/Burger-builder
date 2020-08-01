@@ -27,6 +27,8 @@ export const authFail = (error) => {
 
 //log out constant that will trigger after expirationtime or click
 export const logout = () => {
+	localStorage.removeItem("token")
+	localStorage.removeItem("expirationDate")
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	}
@@ -62,6 +64,11 @@ export const auth = (email, password, isSignup) => {
 		axios
 			.post(url, authData)
 			.then((res) => {
+				const expirationDate = new Date(
+					new Date().getTime() + res.data.expiresIn * 1000
+				)
+				localStorage.setItem("token", res.data.idToken)
+				localStorage.setItem("expirationDate", expirationDate)
 				dispatch(authSuccess(res.data.idToken, res.data.localId))
 				dispatch(checkAuthTimeout(res.data.expiresIn))
 			})
@@ -76,5 +83,16 @@ export const setAuthRedirectPath = (path) => {
 	return {
 		type: actionTypes.SETH_AUTH_REDIRECT_PATH,
 		path: path,
+	}
+}
+
+export const authCheckState = () => {
+	return (dispatch) => {
+		const token = localStorage.getItem("token")
+		if (!token) {
+			dispatch(logout())
+		} else {
+			const expirationDate = localStorage.getItem("expirationDate")
+		}
 	}
 }

@@ -19,14 +19,16 @@ const rootReducer = combineReducers({
 	order: orderReducer,
 	auth: authReducer,
 })
+
+const devtools =
+	process.env.NODE_ENV === "test"
+		? (x) => x /* eslint-disable no-underscore-dangle */
+		: window.__REDUX_DEVTOOLS_EXTENSION__ &&
+		  window.__REDUX_DEVTOOLS_EXTENSION__()
+/* eslint-enable no-underscore-dangle */
+
 //create store and compose applymiddleware + devtools
-const store = createStore(
-	rootReducer,
-	compose(
-		applyMiddleware(thunk),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-)
+const store = createStore(rootReducer, compose(applyMiddleware(thunk)))
 
 const app = (
 	<Provider store={store}>
