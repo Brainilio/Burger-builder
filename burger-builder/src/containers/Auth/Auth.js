@@ -45,7 +45,10 @@ class Auth extends Component {
 
 	//check building / redirectpath
 	componentDidMount() {
-		if (!this.props.buildingBurger && this.props.authRedirectPath !== "/") {
+		if (
+			this.props.buildingBurger === false &&
+			this.props.authRedirectPath !== "/"
+		) {
 			this.props.onSetAuthRedirectPath()
 		}
 	}
@@ -157,9 +160,9 @@ class Auth extends Component {
 
 		return (
 			<>
-				{authRedirect}
 				<h1 style={{ textAlign: "center" }}>Log in</h1>
 				<div className={classes.Auth}>
+					{authRedirect}
 					{errorMessage}
 					<form onSubmit={this.submitHandler}>
 						{form}

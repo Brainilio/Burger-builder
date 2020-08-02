@@ -35,11 +35,7 @@ class BurgerBuilder extends Component {
 	purchaseHandler = () => {
 		if (this.props.isAuthenticated) {
 			//set state the opposite of what it is right now
-			this.setState((prevState) => {
-				return {
-					purchasing: !prevState.purchasing,
-				}
-			})
+			this.setState({ purchasing: !this.state.purchasing })
 		} else {
 			this.props.onSetAuthRedirectPath("/checkout")
 			this.props.history.push("/auth")
