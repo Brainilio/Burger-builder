@@ -19,6 +19,4 @@ const NavigationItems = (props) => (
 	</ul>
 )
 
-//isAuthenticated
-
 export default NavigationItems
