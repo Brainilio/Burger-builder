@@ -9,7 +9,7 @@ import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 import { connect } from "react-redux"
 import * as actions from "../../store/actions/index"
 
-class BurgerBuilder extends Component {
+export class BurgerBuilder extends Component {
 	// State for ingredients and amount of ingredients in 1 burger
 	state = {
 		purchasing: false,

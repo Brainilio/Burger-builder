@@ -25,4 +25,12 @@ describe("Navigation Items", () => {
 		wrapper.setProps({ isAuthenticated: true })
 		expect(wrapper.find(NavigationItem)).toHaveLength(3)
 	})
+
+	it("Should render a logout component.", () => {
+		//use setprops to set props to your wrappers
+		wrapper.setProps({ isAuthenticated: true })
+		expect(
+			wrapper.contains(<NavigationItem link="/logout">Logout</NavigationItem>)
+		)
+	})
 })
