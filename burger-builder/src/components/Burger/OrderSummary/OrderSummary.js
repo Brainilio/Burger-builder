@@ -4,9 +4,6 @@ import { Component } from "react"
 
 class OrderSummary extends Component {
 	// Log whether it will update.
-	componentDidUpdate() {
-		console.log("Ordersummary did update.")
-	}
 
 	render() {
 		// take ingreidnets an use object.keys to transform into array of keys: value
