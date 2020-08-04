@@ -36,4 +36,28 @@ describe("auth reducer", () => {
 			authRedirectPath: "/",
 		})
 	})
+
+	it("should set redirect path", () => {
+		expect(
+			reducer(
+				{
+					token: null,
+					userId: null,
+					error: null,
+					loading: false,
+					authRedirectPath: "/",
+				},
+				{
+					type: actionTypes.SETH_AUTH_REDIRECT_PATH,
+					path: "/path",
+				}
+			)
+		).toEqual({
+			token: null,
+			userId: null,
+			error: null,
+			loading: false,
+			authRedirectPath: "/path",
+		})
+	})
 })
