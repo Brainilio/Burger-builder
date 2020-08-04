@@ -6,6 +6,7 @@ import Spinner from "../../components/UI/Spinner/Spinner"
 import classes from "./Auth.module.css"
 import * as actions from "../../store/actions/index"
 import { connect } from "react-redux"
+import { checkValidity } from "../../shared/checkvalidity"
 
 class Auth extends Component {
 	//local state for form
@@ -61,7 +62,7 @@ class Auth extends Component {
 			[controlName]: {
 				...this.state.controls[controlName],
 				value: e.target.value,
-				valid: this.checkValidity(
+				valid: checkValidity(
 					e.target.value,
 					this.state.controls[controlName].validation
 				),
