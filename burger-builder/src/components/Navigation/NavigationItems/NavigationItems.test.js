@@ -10,8 +10,17 @@ configure({ adapter: new Adapter() })
 
 //describe test
 describe("Navigation Items", () => {
+	let wrapper
+
+	beforeEach(() => {
+		wrapper = shallow(<NavigationItems />)
+	})
+
 	it("Should render 2 nav items if not authenticated", () => {
-		const wrapper = shallow(<NavigationItems />)
 		expect(wrapper.find(NavigationItem)).toHaveLength(2)
+	})
+
+	it("Should render 3 nav items if authenticated", () => {
+		expect(wrapper.find(NavigationItem)).toHaveLength(3)
 	})
 })
