@@ -6,6 +6,7 @@ import Spinner from "../../components/UI/Spinner/Spinner"
 import classes from "./Auth.module.css"
 import * as actions from "../../store/actions/index"
 import { connect } from "react-redux"
+import { checkValidity } from "../../shared/checkvalidity"
 
 class Auth extends Component {
 	//local state for form
@@ -53,38 +54,6 @@ class Auth extends Component {
 		}
 	}
 
-	//validation chcker
-	checkValidity(value, rules) {
-		let isValid = true
-		if (!rules) {
-			return true
-		}
-
-		if (rules.required) {
-			isValid = value.trim() !== "" && isValid
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid
-		}
-
-		if (rules.isEmail) {
-			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-			isValid = pattern.test(value) && isValid
-		}
-
-		if (rules.isNumeric) {
-			const pattern = /^\d+$/
-			isValid = pattern.test(value) && isValid
-		}
-
-		return isValid
-	}
-
 	//inputchangehandler
 	inputChangedHandler = (e, controlName) => {
 		//copy state controls and change the values
@@ -93,7 +62,7 @@ class Auth extends Component {
 			[controlName]: {
 				...this.state.controls[controlName],
 				value: e.target.value,
-				valid: this.checkValidity(
+				valid: checkValidity(
 					e.target.value,
 					this.state.controls[controlName].validation
 				),
@@ -105,7 +74,6 @@ class Auth extends Component {
 
 	//submit handler
 	submitHandler = (e) => {
-		console.log("Submitted form")
 		e.preventDefault()
 		this.props.onAuth(
 			this.state.controls.email.value,

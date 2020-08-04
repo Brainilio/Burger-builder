@@ -5,6 +5,7 @@ import classes from "./ContactData.module.css"
 import axios from "../../../axios-orders"
 import Input from "../../../components/UI/Input/Input"
 import { connect } from "react-redux"
+import { checkValidity } from "../../../shared/checkvalidity"
 import withErrorHandler from "../../../hoc/ErrorHandler/ErrorHandler"
 import * as actions from "../../../store/actions/index"
 
@@ -107,28 +108,6 @@ class ContactData extends Component {
 		this.props.onOrderHandler(order, this.props.token)
 	}
 
-	//validation chcker
-	checkValidity(value, rules) {
-		if (!rules) {
-			return true
-		}
-
-		let isValid = true
-
-		// fields need to be filled
-		if (rules.required) {
-			isValid = value.trim() !== "" && isValid
-		}
-
-		//email validation
-		if (rules.isEmail) {
-			const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
-			isValid = pattern.test(value) && isValid
-		}
-
-		return isValid
-	}
-
 	//inputchangehandler
 	inputChangedHandler = (e, inputID) => {
 		//copy form
@@ -142,7 +121,7 @@ class ContactData extends Component {
 		updatedFormEl.value = e.target.value
 
 		//set validity
-		updatedFormEl.valid = this.checkValidity(
+		updatedFormEl.valid = checkValidity(
 			updatedFormEl.value,
 			updatedFormEl.validation
 		)

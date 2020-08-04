@@ -13,6 +13,11 @@ import authReducer from "./store/reducers/auth"
 import { createStore, applyMiddleware, compose, combineReducers } from "redux"
 import { Provider } from "react-redux"
 
+//redux tools
+const composeEnhancers =
+	process.env.NODE_ENV === "development"
+		? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+		: null || compose
 //combine reducers
 const rootReducer = combineReducers({
 	burgerBuilder: burgerBuilderReducer,
@@ -20,13 +25,7 @@ const rootReducer = combineReducers({
 	auth: authReducer,
 })
 //create store and compose applymiddleware + devtools
-const store = createStore(
-	rootReducer,
-	compose(
-		applyMiddleware(thunk),
-		window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-	)
-)
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)))
 
 const app = (
 	<Provider store={store}>

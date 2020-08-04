@@ -24,8 +24,6 @@ const withErrorHandler = (WrappedComponent, axios) => {
 
 		//get rid of interceptors
 		componentWillUnmount() {
-			console.log("Will unmount", this.reqInterceptor, this.resInterceptor)
-
 			//eject the interceptors
 			axios.interceptors.request.eject(this.reqInterceptor)
 			axios.interceptors.response.eject(this.resInterceptor)
