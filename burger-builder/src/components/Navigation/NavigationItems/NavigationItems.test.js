@@ -21,6 +21,8 @@ describe("Navigation Items", () => {
 	})
 
 	it("Should render 3 nav items if authenticated", () => {
+		//use setprops to set props to your wrappers
+		wrapper.setProps({ isAuthenticated: true })
 		expect(wrapper.find(NavigationItem)).toHaveLength(3)
 	})
 })
