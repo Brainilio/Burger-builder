@@ -5,7 +5,7 @@ import App from "./App"
 import * as serviceWorker from "./serviceWorker"
 import { BrowserRouter } from "react-router-dom"
 import createSagaMiddleWare from "redux-saga"
-import { logoutSaga } from "./store/sagas/auth"
+import { watchAuth } from "./store/sagas/index"
 
 //redux methods and components
 import thunk from "redux-thunk"
@@ -36,7 +36,7 @@ const store = createStore(
 	composeEnhancers(applyMiddleware(thunk, sagaMiddleware))
 )
 
-sagaMiddleware.run(logoutSaga)
+sagaMiddleware.run(watchAuth)
 
 const app = (
 	<Provider store={store}>

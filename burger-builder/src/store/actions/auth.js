@@ -28,9 +28,9 @@ export const authFail = (error) => {
 //log out constant that will trigger after expirationtime or click
 export const logout = () => {
 	// Clear all items
-	localStorage.clear()
+	// localStorage.clear()
 	return {
-		type: actionTypes.AUTH_LOGOUT,
+		type: actionTypes.AUTH_INITIATE_LOGOUT,
 	}
 }
 
@@ -92,11 +92,11 @@ export const authCheckState = () => {
 	return (dispatch) => {
 		const token = localStorage.getItem("token")
 		if (!token) {
-			// dispatch(logout())
+			dispatch(logout())
 		} else {
 			const expirationDate = new Date(localStorage.getItem("expirationDate"))
 			if (expirationDate <= new Date()) {
-				// dispatch(logout())
+				dispatch(logout())
 			} else {
 				const userId = localStorage.getItem("userId")
 				dispatch(authSuccess(token, userId))
