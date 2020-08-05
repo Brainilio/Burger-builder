@@ -28,9 +28,7 @@ export const authFail = (error) => {
 //log out constant that will trigger after expirationtime or click
 export const logout = () => {
 	// Clear all items
-	localStorage.removeItem("token")
-	localStorage.removeItem("expirationDate")
-	localStorage.removeItem("userId")
+	localStorage.clear()
 	return {
 		type: actionTypes.AUTH_LOGOUT,
 	}
