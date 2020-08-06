@@ -22,7 +22,7 @@ const Checkout = (props) => {
 		if (ings === null || disabledInfo === false) {
 			goBackHandler()
 		}
-	}, [ings])
+	}, [])
 
 	const checkoutCancelledHandler = () => {
 		//goback method!
