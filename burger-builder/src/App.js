@@ -32,7 +32,7 @@ const App = (props) => {
 	//protecting routes
 	let routes = (
 		<>
-			<Route path="/auth" component={() => <Auth />} />
+			<Route path="/auth" component={(props) => <Auth {...props} />} />
 			<Route path="/" exact component={BurgerBuilder} />
 		</>
 	)
@@ -41,9 +41,12 @@ const App = (props) => {
 		routes = (
 			<>
 				<Route path="/" exact component={BurgerBuilder} />
-				<Route path="/auth" component={() => <Auth />} />
-				<Route path="/checkout" component={() => <Checkout />} />
-				<Route path="/orders" component={() => <Orders />} />
+				<Route path="/auth" component={(props) => <Auth {...props} />} />
+				<Route
+					path="/checkout"
+					component={(props) => <Checkout {...props} />}
+				/>
+				<Route path="/orders" component={(props) => <Orders {...props} />} />
 				<Route path="/logout" component={Logout} />
 			</>
 		)
