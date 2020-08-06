@@ -1,6 +1,5 @@
 import React from "react"
 import Button from "../../UI/Button/Button"
-import { Component } from "react"
 
 const OrderSummary = (props) => {
 	// take ingreidnets an use object.keys to transform into array of keys: value

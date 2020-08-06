@@ -23,7 +23,12 @@ export default (axios) => {
 			axios.interceptors.request.eject(reqInterceptor)
 			axios.interceptors.response.eject(resInterceptor)
 		}
-	}, [reqInterceptor, resInterceptor]) //run only when these two values change
+	}, [
+		axios.interceptors.request,
+		axios.interceptors.response,
+		reqInterceptor,
+		resInterceptor,
+	]) //run only when these two values change
 
 	const errorConfirmedHandler = () => {
 		setError(null)

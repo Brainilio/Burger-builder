@@ -20,9 +20,9 @@ const Checkout = (props) => {
 		}
 
 		if (ings === null || disabledInfo === false) {
-			goBackHandler()
+			props.history.goBack()
 		}
-	}, [])
+	}, [ings, props.history])
 
 	const checkoutCancelledHandler = () => {
 		//goback method!
@@ -31,10 +31,6 @@ const Checkout = (props) => {
 
 	const checkoutContinuedHandler = () => {
 		props.history.replace("/checkout/contact-data")
-	}
-
-	const goBackHandler = () => {
-		props.history.goBack()
 	}
 
 	let summary = <Redirect to="/" />
