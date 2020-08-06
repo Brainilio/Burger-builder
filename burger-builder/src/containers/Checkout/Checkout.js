@@ -7,20 +7,22 @@ import ContactData from "./ContactData/ContactData"
 import axios from "../../axios-orders"
 
 const Checkout = (props) => {
+	const { ings } = props
+
 	useEffect(() => {
 		// Disable button if ingredient count is 0
 		const disabledInfo = {
-			...props.ings,
+			...ings,
 		}
 		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
 		for (let key in disabledInfo) {
 			disabledInfo[key] = disabledInfo[key] <= 0
 		}
 
-		if (props.ings === null || disabledInfo === false) {
+		if (ings === null || disabledInfo === false) {
 			goBackHandler()
 		}
-	}, [])
+	}, [ings])
 
 	const checkoutCancelledHandler = () => {
 		//goback method!
