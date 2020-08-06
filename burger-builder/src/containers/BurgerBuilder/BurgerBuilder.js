@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { useState, useEffect } from "react"
 import Burger from "../../components/Burger/Burger"
 import BuildControls from "../../components/BuildControls/BuildControls"
 import Modal from "../../components/UI/Modal/Modal"
@@ -9,17 +9,18 @@ import withErrorHandler from "../../hoc/ErrorHandler/ErrorHandler"
 import { connect } from "react-redux"
 import * as actions from "../../store/actions/index"
 
-export class BurgerBuilder extends Component {
+const BurgerBuilder = (props) => {
 	// State for ingredients and amount of ingredients in 1 burger
-	state = {
-		purchasing: false,
-	}
 
-	componentDidMount() {
-		this.props.onInitIngredients()
-	}
+	const [purchasing, setPurchasing] = useState(false)
 
-	updatePurchaseState = (ingredients) => {
+	const { onInitIngredients } = props
+
+	useEffect(() => {
+		onInitIngredients()
+	}, [onInitIngredients])
+
+	const updatePurchaseState = (ingredients) => {
 		// Check value of ingredients
 		const sum = Object.keys(ingredients)
 			.map((igKey) => {
@@ -32,75 +33,73 @@ export class BurgerBuilder extends Component {
 		return sum > 0 //set purchasable on true when sum is larger than 0
 	}
 
-	purchaseHandler = () => {
-		if (this.props.isAuthenticated) {
+	const purchaseHandler = () => {
+		if (props.isAuthenticated) {
 			//set state the opposite of what it is right now
-			this.setState({ purchasing: !this.state.purchasing })
+			setPurchasing((prevstate) => !prevstate)
 		} else {
-			this.props.onSetAuthRedirectPath("/checkout")
-			this.props.history.push("/auth")
+			props.onSetAuthRedirectPath("/checkout")
+			props.history.push("/auth")
 		}
 	}
 
 	// HTTP request
-	purchaseContinueHandler = () => {
-		this.props.onInitPurchase()
-		this.props.history.push("/checkout")
+	const purchaseContinueHandler = () => {
+		props.onInitPurchase()
+		props.history.push("/checkout")
 	}
 
-	render() {
-		// { salad: true, meat: false etc.}
-		let orderSummary = null
-		let burger = this.props.error ? (
-			<p>Ingredients can't be loaded.. Try again later. </p>
-		) : (
-			<Spinner />
-		)
+	// { salad: true, meat: false etc.}
+	let orderSummary = null
+	let burger = props.error ? (
+		<p>Ingredients can't be loaded.. Try again later. </p>
+	) : (
+		<Spinner />
+	)
 
-		// Disable button if ingredient count is 0
-		const disabledInfo = {
-			...this.props.ings,
-		}
-		// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
-		for (let key in disabledInfo) {
-			disabledInfo[key] = disabledInfo[key] <= 0
-		}
+	// Disable button if ingredient count is 0
+	const disabledInfo = {
+		...props.ings,
+	}
+	// Loop through copied ingredients with the key, and then check whether key is lower or equal to zero, if so then itll pass true or false back
+	for (let key in disabledInfo) {
+		disabledInfo[key] = disabledInfo[key] <= 0
+	}
 
-		if (this.props.ings) {
-			burger = (
-				<>
-					<Burger ingredients={this.props.ings} />
-					<BuildControls
-						IngredientAdded={this.props.onIngredientAdded}
-						IngredientRemoved={this.props.onIngredientRemoved}
-						disabled={disabledInfo}
-						price={this.props.price}
-						purchasable={this.updatePurchaseState(this.props.ings)}
-						ordered={this.purchaseHandler}
-						isAuth={this.props.isAuthenticated}
-					/>
-				</>
-			)
-			orderSummary = (
-				<OrderSummary
-					price={this.props.price}
-					cancelClick={this.purchaseHandler}
-					continueClick={this.purchaseContinueHandler}
-					ingredients={this.props.ings}
-				/>
-			)
-		}
-
-		return (
+	if (props.ings) {
+		burger = (
 			<>
-				{/* Granular focussed, modal is a higher order component and passes the props.chidlren */}
-				<Modal modalClosed={this.purchaseHandler} show={this.state.purchasing}>
-					{orderSummary}
-				</Modal>
-				{burger}
+				<Burger ingredients={props.ings} />
+				<BuildControls
+					IngredientAdded={props.onIngredientAdded}
+					IngredientRemoved={props.onIngredientRemoved}
+					disabled={disabledInfo}
+					price={props.price}
+					purchasable={updatePurchaseState(props.ings)}
+					ordered={purchaseHandler}
+					isAuth={props.isAuthenticated}
+				/>
 			</>
 		)
+		orderSummary = (
+			<OrderSummary
+				price={props.price}
+				cancelClick={purchaseHandler}
+				continueClick={purchaseContinueHandler}
+				ingredients={props.ings}
+			/>
+		)
 	}
+
+	return (
+		<>
+			{/* Granular focussed, modal is a higher order component and passes the props.chidlren */}
+			<Modal modalClosed={purchaseHandler} show={purchasing}>
+				{orderSummary}
+			</Modal>
+			{burger}
+		</>
+	)
 }
 
 //map the state from reducer to props
